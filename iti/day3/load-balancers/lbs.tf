@@ -48,7 +48,7 @@ resource "aws_security_group" "back_lb_sg" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = [aws_security_group.front_lb_sg.id] 
+    cidr_blocks     = var.pub_subnets_ips
   }
 
   egress {

@@ -10,6 +10,9 @@ variable "front_lb_sg_id" {
     type = string
 }
 
+variable "back_lb_sg_id" {
+    type = string
+}
 variable "isntance_type" {
     type = string
     default = "t3.micro"
@@ -28,5 +31,9 @@ variable "pri_subnet_1_id" {
 }
 
 variable "pri_subnet_2_id" {
+  type = string
+}
+
+variable "back_lb_dns" {
   type = string
 }

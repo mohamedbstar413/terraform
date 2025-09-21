@@ -20,6 +20,8 @@ module "instances" {
     pub_subnet_2_id = module.network.pub_subnet_2_id
     pri_subnet_1_id = module.network.pri_subnet_1_id
     pri_subnet_2_id = module.network.pri_subnet_2_id
+    back_lb_sg_id = module.lbs.back_lb_sg_id
+    back_lb_dns = module.lbs.back_b_dns
 }
 
 module "lbs" {
@@ -29,6 +31,9 @@ module "lbs" {
   vpc_id = module.network.vpc_id
   proxy_1_id = module.instances.proxy_1_id
   proxy_2_id = module.instances.proxy_2_id
+  back_instance_1_id = module.instances.back_1_id
+  back_instance_2_id = module.instances.back_2_id
+  pub_subnets_ips = [var.pub_subnet_1_cidr, var.pub_subnet_2_cidr]
 }
 
 output "proxy_1_ip" {

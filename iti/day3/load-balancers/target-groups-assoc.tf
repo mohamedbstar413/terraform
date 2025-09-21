@@ -10,10 +10,10 @@ resource "aws_lb_target_group_attachment" "proxy_tg_attach_2" {
 
 resource "aws_lb_target_group_attachment" "back_tg_attach_1" {
   target_group_arn =                aws_lb_target_group.back_target_group.arn
-  target_id =                       ""
+  target_id =                       var.back_instance_1_id
 }
 
-resource "aws_lb_target_group_attachment" "proxy_tg_attach_2" {
+resource "aws_lb_target_group_attachment" "back_tg_attach_2" {
   target_group_arn =                aws_lb_target_group.back_target_group.arn
-  target_id =                       ""
+  target_id =                       var.back_instance_2_id
 }
