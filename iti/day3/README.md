@@ -6,46 +6,47 @@ It demonstrates how to build a scalable cloud environment with a reverse proxy l
 
 🏗️ Architecture
 
-VPC (10.0.0.0/16) with public and private subnets across two Availability Zones for high availability.
+  VPC (10.0.0.0/16) with public and private subnets across two Availability Zones for high availability.
 
-NGINX reverse proxies deployed in public subnets to handle incoming traffic.
+  NGINX reverse proxies deployed in public subnets to handle incoming traffic.
 
-Backend web servers (BE WS) running in private subnets, isolated from the internet.
+  Backend web servers (BE WS) running in private subnets, isolated from the internet.
 
-Application Load Balancers (ALB) to distribute requests between proxies and backend instances.
+  Application Load Balancers (ALB) to distribute requests between proxies and backend instances.
 
-Security Groups configured to strictly control communication between components.
+  Security Groups configured to strictly control communication between components.
 
 ⚙️ Tools & Technologies
 
 Terraform
 
-Modularized infrastructure code for reusability and scalability.
+  Modularized infrastructure code for reusability and scalability.
 
-Automated provisioning of networking, compute, and load balancing.
+  Automated provisioning of networking, compute, and load balancing.
 
 Ansible
 
-Configured NGINX reverse proxies.
+  Configured NGINX reverse proxies.
 
-Automated backend server setup and system hardening.
+  Automated backend server setup and system hardening.
 
-AWS Services: VPC, EC2, ALB, Security Groups, Subnets.
+AWS Services
+  VPC, EC2, ALB, Security Groups, Subnets.
 
 🚀 Features
 
-End-to-end automation of infrastructure provisioning and configuration.
+  End-to-end automation of infrastructure provisioning and configuration.
 
-Idempotent deployments: safe to re-run without breaking the environment.
+  Idempotent deployments: safe to re-run without breaking the environment.
 
-Zero-downtime design using multi-AZ architecture and load balancing.
+  Zero-downtime design using multi-AZ architecture and load balancing.
 
-Backend workloads secured in private subnets with only proxies exposed to the internet.
+  Backend workloads secured in private subnets with only proxies exposed to the internet.
 
 📊 Results
 
-Reduced provisioning and configuration time by ~80% compared to manual setup.
+  Reduced provisioning and configuration time by ~80% compared to manual setup.
 
-Delivered a production-ready, resilient, and secure environment.
+  Delivered a production-ready, resilient, and secure environment.
 
-Demonstrates best practices in IaC, configuration management, and cloud architecture design.
+  Demonstrates best practices in IaC, configuration management, and cloud architecture design.
