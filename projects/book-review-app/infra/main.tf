@@ -15,8 +15,6 @@ module "db" {
   source = "./db"
   book_rds_storage = var.book_rds_storage
   db_port = var.db_port
-  db_username = var.db_username
-  db_password = var.db_password
   vpc_id = module.backend.vpc_id
   pri_subnet_1_id = module.backend.pri_subnet_1_id
   pri_subnet_2_id = module.backend.pri_subnet_2_id

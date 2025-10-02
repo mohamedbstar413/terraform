@@ -20,12 +20,6 @@ variable "instance_class" {
   default = "db.t3.micro"
 }
 
-variable "db_username" {
-  type = string
-}
-variable "db_password" {
-  type = string
-}
 variable "vpc_id" {
   type = string
 }
