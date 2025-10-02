@@ -14,9 +14,12 @@ resource "aws_internet_gateway" "book_igw" {
     Name =                      "Book App IGW"
   }
 }
-
+resource "aws_eip" "book_nat_gw_eip" {
+  domain =                      "vpc"
+}
 resource "aws_nat_gateway" "book_ngw" {
-  subnet_id =                   aws_subnet.book_public_subnet_1
+  subnet_id =                   aws_subnet.book_public_subnet_1.id
+  allocation_id =               aws_eip.book_nat_gw_eip.id
 }
 
 
@@ -66,22 +69,26 @@ resource "aws_route_table" "book_private_route_table" {
 resource "aws_route_table" "book_public_route_table" {
   vpc_id =                      aws_vpc.book_vpc.id
   route {
-    cidr_block =                var.vpc_cidr
+    cidr_block =                "0.0.0.0/0"
     gateway_id =                aws_internet_gateway.book_igw.id
+  }
+  route {
+    cidr_block =                var.vpc_cidr
+    gateway_id =                "local"
   }
 }
 
 resource "aws_route_table_association" "book_pri_rt_assoc_1" {
   route_table_id =              aws_route_table.book_private_route_table.id
-  subnet_id =                   aws_subnet.book_private_subnet_1
+  subnet_id =                   aws_subnet.book_private_subnet_1.id
 }
 
 resource "aws_route_table_association" "book_pri_rt_assoc_2" {
   route_table_id =              aws_route_table.book_private_route_table.id
-  subnet_id =                   aws_subnet.book_private_subnet_2
+  subnet_id =                   aws_subnet.book_private_subnet_2.id
 }
 
 resource "aws_route_table_association" "book_pub_rt_assoc" {
-  route_table_id =              aws_route_table.book_public_route_table
-  subnet_id =                   aws_subnet.book_public_subnet_1
+  route_table_id =              aws_route_table.book_public_route_table.id
+  subnet_id =                   aws_subnet.book_public_subnet_1.id
 }
