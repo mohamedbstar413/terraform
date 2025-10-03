@@ -5,3 +5,6 @@ output "bastion_public_instance_ip" {
 output "db_endpoint" {
   value = module.db.db_endpoint
 }
+output "front_lb_dns"{
+  value = module.backend.front_lb_dns
+}

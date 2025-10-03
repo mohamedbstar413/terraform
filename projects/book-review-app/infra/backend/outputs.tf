@@ -14,3 +14,7 @@ output "pri_subnet_2_id" {
 output "back_ec2_sg_id" {
   value = aws_security_group.back_ec2_sg.id
 }
+
+output "front_lb_dns" {
+  value = aws_lb.book_front_lb.dns_name
+}

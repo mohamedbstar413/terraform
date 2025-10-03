@@ -1,0 +1,58 @@
+resource "aws_iam_role" "back_ec2_role" {
+  name =                "back_ec2_role"
+  #allow ec2 to assume this role
+  assume_role_policy = jsonencode(
+    { 
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  }
+  )
+  managed_policy_arns = [aws_iam_policy.back_ec2_sm_policy.arn, aws_iam_policy.back_ec2_sns_policy.arn]
+}
+
+resource "aws_iam_instance_profile" "back_ec2_instance_profile" {
+  name =                "back_ec2_instance_profile"
+  role =                aws_iam_role.back_ec2_role.name
+}
+
+resource "aws_iam_policy" "back_ec2_sm_policy" {
+  name =                "back_ec2_secretsmanager_policy"
+  
+  policy = jsonencode({
+    
+        "Version": "2012-10-17",
+        "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": "secretsmanager:*",
+            "Resource": "arn:aws:secretsmanager:us-east-1:910148268074:secret:book/rds/admin_password2-hB0xsu"
+        }
+    ]
+    })
+}
+
+resource "aws_iam_policy" "back_ec2_sns_policy" {
+  name =                  "back_ec2_sns_policy"
+
+  policy = jsonencode(
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Allow",
+                "Action": "sns:*",
+                "Resource": "*"
+            }
+        ]
+    }
+  )
+}

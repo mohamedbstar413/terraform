@@ -10,6 +10,8 @@ module "backend"{
     asg_desired_size = var.asg_desired_size
     asg_max_size = var.asg_max_size
     asg_min_size = var.asg_min_size
+    back_ec2_instance_profile_name = module.iam.back_ec2_instance_profile_name
+    book_review_added_sns_topic_arn = module.sns.book_review_added_sns_topic_arn
 }
 module "db" {
   source = "./db"
@@ -21,4 +23,17 @@ module "db" {
   back_ec2_sg_id = module.backend.back_ec2_sg_id
   db_engine = var.db_engine
   db_name = var.db_name
+}
+
+module "iam" {
+  source = "./iam"
+}
+
+module "sns" {
+  source = "./sns"
+}
+
+module "sqs" {
+  source = "./sqs"
+  book_sns_review_topic_arn = module.sns.book_review_added_sns_topic_arn
 }

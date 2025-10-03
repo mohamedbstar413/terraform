@@ -41,3 +41,11 @@ variable "asg_min_size" {
 variable "asg_desired_size" {
   type = number
 }
+
+variable "back_ec2_instance_profile_name" {
+  type = string
+}
+
+variable "book_review_added_sns_topic_arn" {
+  type = string
+}
