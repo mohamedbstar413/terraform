@@ -67,18 +67,7 @@ def books():
     #print("books are: ", cursor.fetchall())
     return jsonify(cursor.fetchall())
 
-'''@app.route("/review", methods=["POST"])
-def review():
-    data = request.json
-    print(data)
-    cursor = db.cursor()
-    cursor.execute("INSERT INTO reviews (book_id, review) VALUES (%s, %s)",
-                   (data["book_id"], data["review"]))
-    db.commit()
-    return {"message": "Review added!"}, 201
 
-
-'''
 @app.route("/reviews", methods=["GET", "POST", "OPTIONS"])
 def reviews():
     if request.method == "OPTIONS":
