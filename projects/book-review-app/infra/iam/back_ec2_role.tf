@@ -14,7 +14,11 @@ resource "aws_iam_role" "back_ec2_role" {
     ]
   }
   )
-  managed_policy_arns = [aws_iam_policy.back_ec2_sm_policy.arn, aws_iam_policy.back_ec2_sns_policy.arn]
+  managed_policy_arns = [
+    aws_iam_policy.back_ec2_sm_policy.arn
+    ,aws_iam_policy.back_ec2_sns_policy.arn
+    ,aws_iam_policy.back_ec2_s3_policy.arn
+    ]
 }
 
 resource "aws_iam_instance_profile" "back_ec2_instance_profile" {
@@ -47,9 +51,27 @@ resource "aws_iam_policy" "back_ec2_sns_policy" {
         "Version": "2012-10-17",
         "Statement": [
             {
-                "Sid": "Statement1",
+                "Sid": "Statement2",
                 "Effect": "Allow",
                 "Action": "sns:*",
+                "Resource": "*"
+            }
+        ]
+    }
+  )
+}
+
+resource "aws_iam_policy" "back_ec2_s3_policy" {
+  name =                  "back_ec2_s3_policy"
+
+  policy = jsonencode(
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement3",
+                "Effect": "Allow",
+                "Action": "s3:*",
                 "Resource": "*"
             }
         ]

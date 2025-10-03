@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=False)
 
-db_host="localhost"
+db_host=""
 db_user=""
 db_password=""
 db_name="new_db"
@@ -32,18 +32,32 @@ def get_secret():
     except ClientError:
         print("Error")
 
-def send_email():
+def get_rds_endpoint():
+    global db_host
+    rds = boto3.client("rds", region_name="us-east-1")  # change region if needed
+    db_identifier = "book_rds_db"
+    response = rds.describe_db_instances(DBInstanceIdentifier=db_identifier)
+
+    # Extract the endpoint info
+    db_instance = response["DBInstances"][0]
+    db_host = db_instance["Endpoint"]["Address"]
+    port = db_instance["Endpoint"]["Port"]
+
+    print(f"RDS Endpoint: {db_host}:{port}")
+
+def notify_sns():
     sns = boto3.client('sns', region_name="us-east-1")
     topic_arn = os.environ.SNS_REVIEW_TOPIC_ARN
     print('topic arn: ', topic_arn)
     sns.publish(TopicArn=topic_arn,Message="A Review has been added")
 
-get_secret()
+get_secret() #get username and password for rds db
+get_rds_endpoint() #get the rds db endpoint
 db = mysql.connector.connect(
-    host='localhost',
+    host=db_host,
     user=db_user,
     password=db_password,
-    database='new_db'
+    database=db_name
 )
 
 @app.route("/books")
@@ -81,7 +95,7 @@ def reviews():
         cursor.execute("INSERT INTO reviews (book_id, review) VALUES (%s, %s)",
                    (data["book_id"], data["review"]))
         db.commit()
-        send_email() #publish to sns topic to send an email than a review has been added
+        notify_sns() #publish to sns topic to send an email that a review has been added
         return {"message": "Review added! Check the Queue"}, 201
 
 if __name__ == "__main__":

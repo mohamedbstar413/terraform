@@ -1,4 +1,5 @@
 resource "aws_db_instance" "book_rds_isntance" {
+  identifier =                  "book_rds_db"
   allocated_storage =           var.book_rds_storage
   db_name=                      var.db_name
   engine =                      var.db_engine
