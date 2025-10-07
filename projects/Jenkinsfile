@@ -66,6 +66,7 @@ pipeline {
                         sh '''
                             terraform apply --auto-approve
                         '''
+                        archiveArtifacts artifacts: 'terraform.tfstate', fingerprint: true
                     }
                 }
             }
