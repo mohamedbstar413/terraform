@@ -13,6 +13,16 @@ pipeline {
             }
         }
 
+        stage('run terraform destroy'){
+            steps{
+                dir('projects/book-review-app/infra') {
+                    sh '''
+                        terraform destroy --auto-approve
+                    '''
+                }
+            }
+        }
+
         stage('terraform init and plan') {
             steps {
                 dir('projects/book-review-app/infra') {
