@@ -1,51 +1,51 @@
 pipeline {
     agent any
-    environment{
+    environment {
         GIT_REPO_URL = 'https://github.com/mohamedbstar413/terraform/tree/main/projects'
     }
-    stage('pull code'){
-        steps{
-            git branch: 'main', url: "${GIT_REPO_URL}"
+    stages {
+        stage('pull code') {
+            steps {
+                git branch: 'main', url: "${GIT_REPO_URL}"
+            }
         }
-    }
 
-    
-    
-    stage('terraform init and plan') {
-        dir('book-review-app/infra'){
-            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+        stage('terraform init and plan') {
+            dir('book-review-app/infra') {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
-                sh '''
+                    sh '''
                     terraform init
                     terraform plan
                 '''
+                          }
             }
         }
-    }
 
-    stage('build the react code') {
-        steps{
-            dir('book-review-app/infra/application/frontend'){
-                sh 'npm run build'
+        stage('build the react code') {
+            steps {
+                dir('book-review-app/infra/application/frontend') {
+                    sh 'npm run build'
+                }
             }
         }
-    }
 
-    stage('copy lb_dns.txt file into build directory'){
-        steps{
-            dir('book-review-app/infra/application/frontend'){
-                sh 'cp lb_dns.txt build/lb_dns.txt'
+        stage('copy lb_dns.txt file into build directory') {
+            steps {
+                dir('book-review-app/infra/application/frontend') {
+                    sh 'cp lb_dns.txt build/lb_dns.txt'
+                }
             }
         }
-    }
 
-    stage('run terraform apply'){
-        dir('book-review-app/infra'){
-            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+        stage('run terraform apply') {
+            dir('book-review-app/infra') {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
-                sh '''
+                    sh '''
                     terraform apply --auto-approve
                 '''
+                          }
             }
         }
     }
