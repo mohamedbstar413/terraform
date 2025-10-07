@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        GIT_REPO_URL = 'https://github.com/mohamedbstar413/terraform/tree/main/projects'
+        GIT_REPO_URL = 'https://github.com/mohamedbstar413/terraform'
     }
     stages {
         stage('pull code') {
@@ -12,7 +12,7 @@ pipeline {
 
         stage('terraform init and plan') {
             steps {
-                dir('book-review-app/infra') {
+                dir('projects/book-review-app/infra') {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
                         sh '''
@@ -26,7 +26,7 @@ pipeline {
 
         stage('build the react code') {
             steps {
-                dir('book-review-app/infra/application/frontend') {
+                dir('projects/book-review-app/infra/application/frontend') {
                     sh 'npm run build'
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
 
         stage('copy lb_dns.txt file into build directory') {
             steps {
-                dir('book-review-app/infra/application/frontend') {
+                dir('projects/book-review-app/infra/application/frontend') {
                     sh 'cp lb_dns.txt build/lb_dns.txt'
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
 
         stage('run terraform apply') {
             steps {
-                dir('book-review-app/infra') {
+                dir('projects/book-review-app/infra') {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
                         sh '''
