@@ -37,7 +37,10 @@ pipeline {
         stage('build the react code') {
             steps {
                 dir('projects/book-review-app/infra/application/frontend') {
-                    sh 'npm run build'
+                    sh '''
+                    npm run build
+                    '''
+                    stash includes: 'build/**', name: 'react-build'
                 }
             }
         }
@@ -52,13 +55,17 @@ pipeline {
 
         stage('run terraform apply') {
             steps {
+                dir('projects/book-review-app/infra/application/frontend'){
+                    unstash 'react-build'
+                }
                 dir('projects/book-review-app/infra') {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
-                        sh '''
-                    terraform apply --auto-approve
-                '''
-                          }
+                        sh
+                        '''
+                            terraform apply --auto-approve
+                        '''
+                    }
                 }
             }
         }
