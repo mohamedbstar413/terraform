@@ -11,14 +11,16 @@ pipeline {
         }
 
         stage('terraform init and plan') {
-            dir('book-review-app/infra') {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+            steps {
+                dir('book-review-app/infra') {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
-                    sh '''
+                        sh '''
                     terraform init
                     terraform plan
                 '''
                           }
+                }
             }
         }
 
@@ -39,13 +41,15 @@ pipeline {
         }
 
         stage('run terraform apply') {
-            dir('book-review-app/infra') {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+            steps {
+                dir('book-review-app/infra') {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
-                    sh '''
+                        sh '''
                     terraform apply --auto-approve
                 '''
                           }
+                }
             }
         }
     }
