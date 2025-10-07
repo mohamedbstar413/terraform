@@ -26,6 +26,13 @@ pipeline {
                 }
             }
         }
+        stage('run npm install') {
+            steps {
+                dir('projects/book-review-app/infra/application/frontend') {
+                    sh 'npm install'
+                }
+            }
+        }
 
         stage('build the react code') {
             steps {
