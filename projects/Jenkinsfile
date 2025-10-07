@@ -3,6 +3,9 @@ pipeline {
     environment {
         GIT_REPO_URL = 'https://github.com/mohamedbstar413/terraform'
     }
+    tools{
+        terraform 'terraform'
+    }
     stages {
         stage('pull code') {
             steps {
