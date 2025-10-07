@@ -1,74 +1,54 @@
 pipeline {
     agent any
+    environment{
+        GIT_REPO_URL = 'https://github.com/mohamedbstar413/terraform/tree/main/projects'
+    }
+    stage('pull code'){
+        steps{
+            git branch: 'main', url: "${GIT_REPO_URL}"
+        }
+    }
 
+    
+    
     stage('terraform init and plan') {
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+        dir('book-review-app/infra'){
+            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
-            sh '''
-            terraform init
-            terraform plan
-          '''
+                sh '''
+                    terraform init
+                    terraform plan
+                '''
+            }
         }
     }
 
-    stage('') {
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                          credentialsId: 'aws']]) {
-            sh '''
-            terraform init
-            terraform plan
-          '''
+    stage('build the react code') {
+        steps{
+            dir('book-review-app/infra/application/frontend'){
+                sh 'npm run build'
+            }
         }
     }
 
-
-    /*stages {
-        stage('Pull Code') {
-            steps {
-                echo 'Cloning Terraform repo...'
-                git branch: 'main', url: 'https://github.com/mohamedbstar413/terraform.git'
+    stage('copy lb_dns.txt file into build directory'){
+        steps{
+            dir('book-review-app/infra/application/frontend'){
+                sh 'cp lb_dns.txt build/lb_dns.txt'
             }
         }
+    }
 
-        stage('Destroy Old State'){
-            dir('projects/book-review-app/infra'){
-                sh 'terraform destroy --auto-approve'
+    stage('run terraform apply'){
+        dir('book-review-app/infra'){
+            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                          credentialsId: 'aws']]) {
+                sh '''
+                    terraform apply --auto-approve
+                '''
             }
         }
-
-        stage('Setup Terraform') {
-            steps {
-                echo 'Initializing Terraform...'
-                dir('projects/book-review-app/infra') {
-                    sh '''
-                        terraform --version || echo "Terraform not found in PATH"
-                        terraform init -input=false
-                    '''
-                }
-            }
-        }
-
-        stage('Validate Terraform') {
-            steps {
-                echo 'Validating Terraform configuration...'
-                dir('projects/book-review-app/infra'){
-                    sh 'terraform validate'
-                }
-            }
-        }
-
-        stage('Plan Infrastructure') {
-            steps {
-                echo 'Running Terraform plan...'
-                dir('projects/book-review-app/infra'){
-                    sh 'terraform plan -input=false -no-color -out=tfplan'
-                }
-            }
-        }
-
-        //put backend in s3
-
-    }*/
+    }
 
     post {
         always {

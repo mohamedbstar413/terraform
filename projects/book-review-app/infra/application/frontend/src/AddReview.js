@@ -6,13 +6,32 @@ function AddReview() {
   const [review, setReview] = useState("");
   const [message, setMessage] = useState("");
 
+  const [dns, setDns] = useState("");
+
+  useEffect(() => {
+    fetch("/lb_dns.txt")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to load DNS file");
+        return response.text();
+      })
+      .then((text) => {
+        // remove any newline characters
+        setDns(text.trim());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  if (!dns) return <p>Loading...</p>;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!bookId || !review) {
       setMessage("Both fields required.");
       return;
     }
-    await addReview(bookId, review);
+    await addReview(dns, bookId, review);
     setMessage("Review added successfully!");
     setBookId("");
     setReview("");

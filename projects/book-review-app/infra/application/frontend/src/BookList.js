@@ -3,9 +3,28 @@ import { getBooks } from "./api";
 
 function BookList() {
   const [books, setBooks] = useState([]);
+  const [dns, setDns] = useState("");
 
   useEffect(() => {
-    getBooks().then(setBooks);
+    fetch("/lb_dns.txt")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to load DNS file");
+        return response.text();
+      })
+      .then((text) => {
+        // remove any newline characters
+        setDns(text.trim());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  if (!dns) return <p>Loading...</p>;
+
+
+  useEffect(() => {
+    getBooks(dns).then(setBooks);
   }, []);
 
   return (
