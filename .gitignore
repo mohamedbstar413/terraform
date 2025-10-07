@@ -1,0 +1,16 @@
+# Local .terraform directories
+**/.terraform/*
+
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Provisioner / plugin cache
+
+#react files
+node_modules

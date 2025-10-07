@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    environment {
+        // optional: where Terraform binary lives
+        TF_HOME = "${WORKSPACE}/terraform"
+    }
+
+    stages {
+        stage('Pull Code') {
+            steps {
+                echo 'Cloning Terraform repo...'
+                git branch: 'main', url: 'https://github.com/mohamedbstar413/terraform.git'
+            }
+        }
+
+        stage('Destroy Old State'){
+            dir('projects/book-review-app/infra'){
+                sh 'terraform destroy --auto-approve'
+            }
+        }
+
+        stage('Setup Terraform') {
+            steps {
+                echo 'Initializing Terraform...'
+                dir('projects/book-review-app/infra') {
+                    sh '''
+                        terraform --version || echo "Terraform not found in PATH"
+                        terraform init -input=false
+                    '''
+                }
+            }
+        }
+
+        stage('Validate Terraform') {
+            steps {
+                echo 'Validating Terraform configuration...'
+                dir('projects/book-review-app/infra'){
+                    sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Plan Infrastructure') {
+            steps {
+                echo 'Running Terraform plan...'
+                dir('projects/book-review-app/infra'){
+                    sh 'terraform plan -input=false -no-color -out=tfplan'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed (success or failure). Cleaning workspace...'
+            cleanWs()
+        }
+
+        success {
+            echo '✅ Pipeline completed successfully!'
+        }
+
+        failure {
+            echo '❌ Pipeline failed. Please check the logs above for details.'
+        }
+    }
+}
