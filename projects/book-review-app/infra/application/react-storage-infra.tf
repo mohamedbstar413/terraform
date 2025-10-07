@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "react_app_s3_storage_bucket" {
 
 resource "aws_s3_bucket_website_configuration" "react_website" {
   bucket = aws_s3_bucket.react_app_s3_storage_bucket.id
-  depends_on = [ aws_s3_object.python_app_file ] #create only after backend code is uploaded
+  depends_on = [ var.front_lb ] #create only after front lb is up and running
   index_document {
     suffix = "index.html"
   }

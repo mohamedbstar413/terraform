@@ -42,4 +42,5 @@ module "sqs" {
 
 module "application" {
   source = "./application"
+  front_lb = module.backend.front_lb
 }

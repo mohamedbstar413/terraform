@@ -18,3 +18,6 @@ output "back_ec2_sg_id" {
 output "front_lb_dns" {
   value = aws_lb.book_front_lb.dns_name
 }
+output "front_lb" {
+  value = aws_lb.book_front_lb
+}
