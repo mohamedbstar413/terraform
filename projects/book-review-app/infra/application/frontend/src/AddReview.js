@@ -23,8 +23,6 @@ function AddReview() {
       });
   }, []);
 
-  if (!dns) return <p>Loading...</p>;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!bookId || !review) {
