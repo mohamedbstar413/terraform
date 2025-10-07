@@ -35,7 +35,7 @@ def get_secret():
 def get_rds_endpoint():
     global db_host
     rds = boto3.client("rds", region_name="us-east-1")  # change region if needed
-    db_identifier = "book_rds_db"
+    db_identifier = "book-rds-db"
     response = rds.describe_db_instances(DBInstanceIdentifier=db_identifier)
 
     # Extract the endpoint info

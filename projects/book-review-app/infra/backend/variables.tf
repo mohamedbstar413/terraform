@@ -49,3 +49,10 @@ variable "back_ec2_instance_profile_name" {
 variable "book_review_added_sns_topic_arn" {
   type = string
 }
+variable "python_s3" {
+  type = object({
+    arn    = string
+    bucket = string
+    id     = string
+  })
+}

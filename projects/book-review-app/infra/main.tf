@@ -12,6 +12,8 @@ module "backend"{
     asg_min_size = var.asg_min_size
     back_ec2_instance_profile_name = module.iam.back_ec2_instance_profile_name
     book_review_added_sns_topic_arn = module.sns.book_review_added_sns_topic_arn
+    python_s3 = module.application.python_s3
+    
 }
 module "db" {
   source = "./db"
@@ -36,4 +38,8 @@ module "sns" {
 module "sqs" {
   source = "./sqs"
   book_sns_review_topic_arn = module.sns.book_review_added_sns_topic_arn
+}
+
+module "application" {
+  source = "./application"
 }

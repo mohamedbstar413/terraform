@@ -1,12 +1,28 @@
 pipeline {
     agent any
 
-    environment {
-        // optional: where Terraform binary lives
-        TF_HOME = "${WORKSPACE}/terraform"
+    stage('terraform init and plan') {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                          credentialsId: 'aws']]) {
+            sh '''
+            terraform init
+            terraform plan
+          '''
+        }
     }
 
-    stages {
+    stage('') {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                          credentialsId: 'aws']]) {
+            sh '''
+            terraform init
+            terraform plan
+          '''
+        }
+    }
+
+
+    /*stages {
         stage('Pull Code') {
             steps {
                 echo 'Cloning Terraform repo...'
@@ -49,7 +65,10 @@ pipeline {
                 }
             }
         }
-    }
+
+        //put backend in s3
+
+    }*/
 
     post {
         always {
