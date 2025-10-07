@@ -23,7 +23,7 @@ function BookList() {
   useEffect(() => {
     if (!dns) return <p>Loading...</p>;
     getBooks(dns).then(setBooks);
-  }, []);
+  }, [dns]);
 
   return (
     <div>
