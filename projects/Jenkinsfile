@@ -13,29 +13,21 @@ pipeline {
             }
         }
 
-        stage('run terraform destroy'){
-            steps{
-                dir('projects/book-review-app/infra') {
-                    sh '''
-                        terraform destroy --auto-approve
-                    '''
-                }
-            }
-        }
-
-        stage('terraform init and plan') {
+        stage('terraform init and destroy ') {
             steps {
                 dir('projects/book-review-app/infra') {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'aws']]) {
                         sh '''
                     terraform init
-                    terraform plan
+                    terraform destroy --auto-approve
                 '''
                           }
                 }
             }
         }
+
+        
         stage('run npm install') {
             steps {
                 dir('projects/book-review-app/infra/application/frontend') {
