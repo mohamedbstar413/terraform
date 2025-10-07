@@ -20,10 +20,8 @@ function BookList() {
       });
   }, []);
 
-  if (!dns) return <p>Loading...</p>;
-
-
   useEffect(() => {
+    if (!dns) return <p>Loading...</p>;
     getBooks(dns).then(setBooks);
   }, []);
 
