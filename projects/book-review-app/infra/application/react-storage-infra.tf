@@ -60,6 +60,7 @@ resource "aws_s3_object" "react_build" {
     png  = "image/png",
     jpg  = "image/jpeg",
     svg  = "image/svg+xml",
+    txt  = "text/plain"
   }, split(".", each.value)[length(split(".", each.value)) - 1], "binary/octet-stream")
 }
 

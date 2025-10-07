@@ -42,13 +42,13 @@ pipeline {
             }
         }
 
-        stage('copy lb_dns.txt file into build directory') {
+        /*stage('copy lb_dns.txt file into build directory') {
             steps {
                 dir('projects/book-review-app/infra/application/frontend') {
                     sh 'cp lb_dns.txt build/lb_dns.txt'
                 }
             }
-        }
+        }*/
 
         stage('run terraform apply') {
             steps {
