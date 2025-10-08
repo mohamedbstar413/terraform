@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "react_app_s3_storage_bucket" {
   bucket =                  "book-review-react-app-s3-storage-bucket"
+  force_destroy =           true
 }
 
 resource "aws_s3_bucket_website_configuration" "react_website" {
@@ -46,22 +47,15 @@ locals {
   files = fileset("application/frontend/build/", "**")
 }
 
-resource "aws_s3_object" "react_build" {
-  for_each = local.files
 
-  bucket       = aws_s3_bucket.react_app_s3_storage_bucket.id
-  key          = each.value
-  source       = "application/frontend/build/${each.value}"
-  content_type = lookup({
-    html = "text/html",
-    css  = "text/css",
-    js   = "application/javascript",
-    json = "application/json",
-    png  = "image/png",
-    jpg  = "image/jpeg",
-    svg  = "image/svg+xml",
-    txt  = "text/plain"
-  }, split(".", each.value)[length(split(".", each.value)) - 1], "binary/octet-stream")
+resource "null_resource" "upload_build" {
+  depends_on = [var.front_lb, aws_s3_bucket.react_app_s3_storage_bucket]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      aws s3 sync application/frontend/build s3://${aws_s3_bucket.react_app_s3_storage_bucket.bucket} --delete
+    EOT
+  }
 }
 
 

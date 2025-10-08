@@ -21,6 +21,13 @@ resource "aws_security_group" "book_bastion_sg" {
     protocol =                      "tcp"
     cidr_blocks =                   ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port =                     0
+    to_port =                       0
+    protocol =                      "-1"
+    cidr_blocks =                   ["0.0.0.0/0"] #allow all outbound tradffic
+  }
 }
 
 resource "aws_security_group" "back_ec2_sg" {
@@ -40,7 +47,7 @@ resource "aws_security_group" "back_ec2_sg" {
     to_port =                       var.ssh_port
 
     protocol =                      "tcp"
-    cidr_blocks =                   [var.vpc_cidr] #allow ssh for debugging
+    security_groups =               [aws_security_group.book_bastion_sg.id]
   }
   egress {
     from_port =                     0

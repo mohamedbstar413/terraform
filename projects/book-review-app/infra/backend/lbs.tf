@@ -4,7 +4,7 @@ resource "aws_lb" "book_front_lb" {
   load_balancer_type =      "application"
   security_groups =         [aws_security_group.book_front_lb_sg.id]
 
-  subnets =                 [aws_subnet.book_private_subnet_1.id, aws_subnet.book_private_subnet_2.id]
+  subnets =                 [aws_subnet.book_public_subnet_1.id, aws_subnet.book_public_subnet_2.id]
   depends_on =              [ var.python_s3 ]
   provisioner "local-exec" {
     command = "touch ${path.root}/application/frontend/build/lb_dns.txt; echo http://${self.dns_name} > ${path.root}/application/frontend/build/lb_dns.txt"

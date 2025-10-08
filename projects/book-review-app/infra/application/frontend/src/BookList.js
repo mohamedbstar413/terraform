@@ -21,8 +21,9 @@ function BookList() {
   }, []);
 
   useEffect(() => {
+    if (!dns) return; // wait until dns is loaded
     getBooks(dns).then(setBooks);
-  }, []);
+  }, [dns]); // run again when dns changes
 
   return (
     <div>

@@ -14,16 +14,12 @@ resource "aws_iam_role" "back_ec2_role" {
     ]
   }
   )
-  managed_policy_arns = [
+  /*managed_policy_arns = [
     aws_iam_policy.back_ec2_sm_policy.arn
     ,aws_iam_policy.back_ec2_sns_policy.arn
     ,aws_iam_policy.back_ec2_s3_policy.arn
-    ]
-}
-
-resource "aws_iam_instance_profile" "back_ec2_instance_profile" {
-  name =                "back_ec2_instance_profile"
-  role =                aws_iam_role.back_ec2_role.name
+    , aws_iam_policy.back_ec2_rds_policy.arn
+    ]*/
 }
 
 resource "aws_iam_policy" "back_ec2_sm_policy" {
@@ -77,4 +73,45 @@ resource "aws_iam_policy" "back_ec2_s3_policy" {
         ]
     }
   )
+}
+
+resource "aws_iam_policy" "back_ec2_rds_policy" {
+  name =                  "back_ec2_rds_policy"
+
+  policy = jsonencode(
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement3",
+                "Effect": "Allow",
+                "Action": "rds:*",
+                "Resource": "*"
+            }
+        ]
+    }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "role_poicy_attachment_rds" {
+  role =                 aws_iam_role.back_ec2_role.name
+  policy_arn =            aws_iam_policy.back_ec2_rds_policy.arn
+}
+resource "aws_iam_role_policy_attachment" "role_poicy_attachment_s3" {
+  role =                 aws_iam_role.back_ec2_role.name
+  policy_arn =            aws_iam_policy.back_ec2_s3_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "role_poicy_attachment_sm" {
+  role =                 aws_iam_role.back_ec2_role.name
+  policy_arn =            aws_iam_policy.back_ec2_sm_policy.arn
+}
+resource "aws_iam_role_policy_attachment" "role_poicy_attachment_sns" {
+  role =                 aws_iam_role.back_ec2_role.name
+  policy_arn =            aws_iam_policy.back_ec2_sns_policy.arn
+}
+
+resource "aws_iam_instance_profile" "back_ec2_instance_profile" {
+  name =                "back_ec2_instance_profile"
+  role =                aws_iam_role.back_ec2_role.name
 }

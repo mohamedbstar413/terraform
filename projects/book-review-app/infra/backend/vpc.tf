@@ -33,6 +33,16 @@ resource "aws_subnet" "book_public_subnet_1" {
     Name =                      "Book App Public Subnet"
   }
 }
+resource "aws_subnet" "book_public_subnet_2" {
+  vpc_id =                      aws_vpc.book_vpc.id
+  cidr_block =                  "10.0.5.0/24"
+  availability_zone =           var.az_2
+  map_public_ip_on_launch =     true
+
+  tags = {
+    Name =                      "Book App Public Subnet 2"
+  }
+}
 
 resource "aws_subnet" "book_private_subnet_1" {
   vpc_id =                      aws_vpc.book_vpc.id
@@ -62,7 +72,7 @@ resource "aws_route_table" "book_private_route_table" {
   }
   route {
     cidr_block =                "0.0.0.0/0"
-    gateway_id =                aws_nat_gateway.book_ngw.id
+    nat_gateway_id =            aws_nat_gateway.book_ngw.id
   }
 }
 
@@ -91,4 +101,9 @@ resource "aws_route_table_association" "book_pri_rt_assoc_2" {
 resource "aws_route_table_association" "book_pub_rt_assoc" {
   route_table_id =              aws_route_table.book_public_route_table.id
   subnet_id =                   aws_subnet.book_public_subnet_1.id
+}
+
+resource "aws_route_table_association" "book_pub_rt_assoc_2" {
+  route_table_id =              aws_route_table.book_public_route_table.id
+  subnet_id =                   aws_subnet.book_public_subnet_2.id
 }
