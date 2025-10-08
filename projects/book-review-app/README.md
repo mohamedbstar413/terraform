@@ -26,6 +26,10 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
 - Complete AWS infrastructure provisioned via Terraform.
 - Terraform state stored securely in S3 with locking enabled.
 
+### **Infrastructure as Code Best Practice**
+- Divided the Project into modules each one is responsible for a part of the application.
+- Made the project configuration and variable setting be in a central place in main.tf
+
 ### **Frontend**
 - S3 bucket hosting React frontend as a static website.
 - Dynamic ALB DNS written to a file and uploaded to frontend S3 bucket for backend connectivity.
@@ -33,12 +37,22 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
 ### **Backend**
 - S3 bucket storing backend code.
 - EC2 instances download backend code on launch using User Data scripts.
+- Made the backend instances in private subnets to be more secure.
 - Auto Scaling Group (ASG) with policies for load management.
 - IAM Role for backend EC2 to access AWS services securely.
+- Only Needed IAM policy for Least privilege architecture pattern.
+
+### **Security**
+- Created Private Subnets for the backend instances and the RDS Database.
+- Stated that backend instances security groups allow inbound only from the ALB security group.
+- Stated that RDS security group allow inbound only from the backend instances security group.
 
 ### **Networking**
+- Private subnets for backend instances and RDS database
+- Public subnets for the ALB
 - Application Load Balancer (ALB) for request routing.
 - Target Group linked to backend EC2 instances.
+- Nat gateway for backend ec2 instances to reach the internet without being publically accessible.
 
 ### **Database**
 - RDS MySQL/PostgreSQL instance.
@@ -181,6 +195,7 @@ AWS Auto Scaling
 AWS Secrets Manager
 
 Author: Mohamed Abd Elsattar
+
 
 
 
