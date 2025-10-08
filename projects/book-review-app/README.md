@@ -104,6 +104,9 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
 | IAM Roles/Policies    | Secure access management |
 
 ---
+## ⚙️ Project Structure
+<img width="330" height="717" alt="image" src="https://github.com/user-attachments/assets/7266dea4-064e-432c-9406-1bd68847a22e" />
+
 
 ## 💡 How It Works
 
@@ -195,6 +198,7 @@ AWS Auto Scaling
 AWS Secrets Manager
 
 Author: Mohamed Abd Elsattar
+
 
 
 
