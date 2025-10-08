@@ -136,12 +136,12 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
    aws configure
 
 
-3: Initialize Terraform:
+3. Initialize Terraform:
    ```bash
    terraform init
 
 
-4: Apply Terraform:
+4. Apply Terraform:
    ```bash
    terraform apply
 
@@ -181,6 +181,7 @@ AWS Auto Scaling
 AWS Secrets Manager
 
 Author: Mohamed Abd Elsattar
+
 
 
 
