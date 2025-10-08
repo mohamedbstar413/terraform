@@ -1,12 +1,14 @@
 //const API_BASE = "127.0.0.1:5000"; // replace with ALB DNS in AWS
 
 export async function getBooks(dns) {
+  console.log('dns is ', dns)
   const res = await fetch(`${dns}:5000/books`);
   console.log(res);
   return res.json();
 }
 
 export async function addReview(dns, bookId, review) {
+  console.log('dns is ', dns)
   const res = await fetch(`${dns}:5000/reviews`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

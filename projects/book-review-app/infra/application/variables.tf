@@ -3,7 +3,7 @@ variable "front_lb" {
     name               = string
     internal           = bool
     load_balancer_type = string
-    security_groups    = list
-    subnets            = list
+    security_groups    = list(string)
+    subnets            = list(string)
   })
 }
