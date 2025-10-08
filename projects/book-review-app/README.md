@@ -165,19 +165,19 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
    aws configure
 
 
-Initialize Terraform:
+3: Initialize Terraform:
+```bash
+   terraform init
 
-terraform init
 
-
-Apply Terraform:
-
-terraform apply
+4: Apply Terraform:
+```bash
+   terraform apply
 
 
 Access frontend via S3 bucket URL or CloudFront distribution.
 
-🛡 Security Considerations
+## 🛡 Security Considerations
 
 Terraform state stored in S3 with versioning and locking.
 
@@ -187,7 +187,7 @@ Database credentials stored in AWS Secrets Manager.
 
 Public access to S3 buckets is blocked unless required.
 
-📈 Possible Improvements
+## 📈 Possible Improvements
 
 Add CloudFront for frontend CDN caching and HTTPS.
 
@@ -210,3 +210,4 @@ AWS Auto Scaling
 AWS Secrets Manager
 
 Author: Mohamed Abd Elsattar
+
