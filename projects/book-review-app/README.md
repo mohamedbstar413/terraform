@@ -71,8 +71,6 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
 [SNS Topic] → [SQS Queue] → Backend Processing
 → Email Subscription
 
-yaml
-Copy code
 
 ---
 
@@ -116,3 +114,99 @@ Copy code
 ---
 
 ## 📁 Repository Structure
+
+
+
+
+.
+├── terraform/ # Terraform configs
+│ ├── main.tf
+│ ├── variables.tf
+│ ├── outputs.tf
+│ ├── backend.tf
+│ └── ...
+├── frontend/ # React app
+├── backend/ # Backend app
+└── README.md
+
+
+---
+
+## 🚀 Deployment Instructions
+
+1. Install Terraform:  
+   [Terraform Installation Guide](https://developer.hashicorp.com/terraform/downloads)
+
+2. Configure AWS CLI:  
+   ```bash
+   aws configure
+
+   .
+├── terraform/ # Terraform configs
+│ ├── main.tf
+│ ├── variables.tf
+│ ├── outputs.tf
+│ ├── backend.tf
+│ └── ...
+├── frontend/ # React app
+├── backend/ # Backend app
+└── README.md
+
+
+---
+
+## 🚀 Deployment Instructions
+
+1. Install Terraform:  
+   [Terraform Installation Guide](https://developer.hashicorp.com/terraform/downloads)
+
+2. Configure AWS CLI:  
+   ```bash
+   aws configure
+
+
+Initialize Terraform:
+
+terraform init
+
+
+Apply Terraform:
+
+terraform apply
+
+
+Access frontend via S3 bucket URL or CloudFront distribution.
+
+🛡 Security Considerations
+
+Terraform state stored in S3 with versioning and locking.
+
+Backend EC2 IAM roles restrict access to necessary resources.
+
+Database credentials stored in AWS Secrets Manager.
+
+Public access to S3 buckets is blocked unless required.
+
+📈 Possible Improvements
+
+Add CloudFront for frontend CDN caching and HTTPS.
+
+Use Terraform modules for reusable infrastructure.
+
+Implement CI/CD pipelines for automated deployment.
+
+Add HTTPS for backend ALB with ACM certificates.
+
+Add AWS WAF for enhanced security.
+
+📚 References
+
+Terraform Documentation
+
+AWS S3 Static Website Hosting
+
+AWS Auto Scaling
+
+AWS Secrets Manager
+
+Author: Mohamed Abd Elsattar
