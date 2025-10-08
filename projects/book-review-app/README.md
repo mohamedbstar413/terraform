@@ -113,23 +113,6 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
 
 ---
 
-## 📁 Repository Structure
-
-
-
-
-.
-├── terraform/ # Terraform configs
-│ ├── main.tf
-│ ├── variables.tf
-│ ├── outputs.tf
-│ ├── backend.tf
-│ └── ...
-├── frontend/ # React app
-├── backend/ # Backend app
-└── README.md
-
-
 ---
 
 ## 🚀 Deployment Instructions
@@ -140,18 +123,6 @@ Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, 
 2. Configure AWS CLI:  
    ```bash
    aws configure
-
-   .
-├── terraform/ # Terraform configs
-│ ├── main.tf
-│ ├── variables.tf
-│ ├── outputs.tf
-│ ├── backend.tf
-│ └── ...
-├── frontend/ # React app
-├── backend/ # Backend app
-└── README.md
-
 
 ---
 
@@ -210,4 +181,5 @@ AWS Auto Scaling
 AWS Secrets Manager
 
 Author: Mohamed Abd Elsattar
+
 
