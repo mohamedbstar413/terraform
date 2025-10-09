@@ -19,6 +19,8 @@ The application architecture:
 Additional AWS services include: S3, ALB, Auto Scaling Groups, Secrets Manager, CloudWatch, SNS, and SQS.
 
 ---
+<img width="824" height="708" alt="image" src="https://github.com/user-attachments/assets/859354d7-94d7-4818-8f38-d5942a785241" />
+
 
 ## 🛠 Features
 
@@ -198,6 +200,7 @@ AWS Auto Scaling
 AWS Secrets Manager
 
 Author: Mohamed Abd Elsattar
+
 
 
 
