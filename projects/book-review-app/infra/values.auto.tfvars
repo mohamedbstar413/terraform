@@ -15,7 +15,5 @@ asg_max_size = 5
 
 book_rds_storage = 10
 db_port = 3306
-db_username = "mohamed"
-db_password = "mohamed"
 db_engine = "mysql"
 db_name = "bookDb"
