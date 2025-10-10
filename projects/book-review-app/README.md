@@ -177,17 +177,6 @@ Database credentials stored in AWS Secrets Manager.
 
 Public access to S3 buckets is blocked unless required.
 
-## 📈 Possible Improvements
-
-Add CloudFront for frontend CDN caching and HTTPS.
-
-Use Terraform modules for reusable infrastructure.
-
-Implement CI/CD pipelines for automated deployment.
-
-Add HTTPS for backend ALB with ACM certificates.
-
-Add AWS WAF for enhanced security.
 
 📚 References
 
